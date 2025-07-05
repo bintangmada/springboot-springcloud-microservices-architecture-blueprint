@@ -1,4 +1,4 @@
-package com.bintang.customer_service;
+package com.bintang.customerservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
