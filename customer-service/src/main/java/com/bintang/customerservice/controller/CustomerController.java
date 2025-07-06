@@ -30,7 +30,7 @@ public class CustomerController {
         return customerService.getAllCustomers();
     }
 
-    @PostMapping("/search-by-email")
+    @PostMapping("/find-by-email")
     public Customer getCustomerByEmail(@RequestBody SearchEmailRequest searchEmailRequest) {
         return customerService.findCustomerByEmail(searchEmailRequest.getEmail());
     }

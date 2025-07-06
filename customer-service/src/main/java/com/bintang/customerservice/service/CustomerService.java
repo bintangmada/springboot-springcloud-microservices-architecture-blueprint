@@ -14,6 +14,10 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     public Customer createCustomer(Customer customer) {
+        Customer cekEmail = customerRepository.findByEmail(customer.getEmail());
+        if (cekEmail != null) {
+            throw new RuntimeException("Email already exists");
+        }
         return customerRepository.save(customer);
     }
 
