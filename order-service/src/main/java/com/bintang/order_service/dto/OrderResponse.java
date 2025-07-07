@@ -1,6 +1,7 @@
 package com.bintang.order_service.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class OrderResponse {
 
@@ -8,12 +9,14 @@ public class OrderResponse {
     private String orderNumber;
     private Date orderDate;
     private Customer customer;
+    private List<OrderLineResponse> listOrderLines;
 
-    public OrderResponse(Long id, String orderNumber, Date orderDate, Customer customer) {
+    public OrderResponse(Long id, String orderNumber, Date orderDate, Customer customer, List<OrderLineResponse> listOrderLines) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
         this.customer = customer;
+        this.listOrderLines = listOrderLines;
     }
 
     public OrderResponse() {
@@ -49,5 +52,13 @@ public class OrderResponse {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public List<OrderLineResponse> getListOrderLines() {
+        return listOrderLines;
+    }
+
+    public void setListOrderLines(List<OrderLineResponse> listOrderLines) {
+        this.listOrderLines = listOrderLines;
     }
 }
