@@ -1,7 +1,9 @@
 package com.bintang.order_service.service;
 
 import com.bintang.order_service.dto.Customer;
+import com.bintang.order_service.dto.OrderLineResponse;
 import com.bintang.order_service.dto.OrderResponse;
+import com.bintang.order_service.dto.Product;
 import com.bintang.order_service.entity.Order;
 import com.bintang.order_service.entity.OrderLine;
 import com.bintang.order_service.repository.OrderRepository;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -42,6 +45,17 @@ public class OrderService {
         orderResponse.setOrderNumber(order.getOrderNumber());
         orderResponse.setOrderDate(order.getOrderDate());
         orderResponse.setCustomer(getCustomerById(order.getCustomerId()));
+        orderResponse.setListOrderLines(new ArrayList<>());
+
+        for(OrderLine orderLine : order.getOrderLines()){
+            Product product = getProductById(orderLine.getProductId());
+            OrderLineResponse orderLineResponse = new OrderLineResponse();
+            orderLineResponse.setId(orderLine.getId());
+            orderLineResponse.setPrice(orderLine.getPrice());
+            orderLineResponse.setQuantity(orderLine.getQuantity());
+            orderLineResponse.setProduct(product);
+            orderResponse.getListOrderLines().add(orderLineResponse);
+        }
 
         return orderResponse;
     }
@@ -50,5 +64,7 @@ public class OrderService {
         return restTemplate.getForObject("http://localhost:8081/api/customer/"+id, Customer.class);
     }
 
-
+    public Product getProductById(Long id){
+        return restTemplate.getForObject("http://localhost:8082/api/product/"+id, Product.class);
+    }
 }
