@@ -9,14 +9,14 @@ public class OrderResponse {
     private String orderNumber;
     private Date orderDate;
     private Customer customer;
-    private List<OrderLineResponse> listOrderLines;
+    private List<OrderLineResponse> orderLines;
 
-    public OrderResponse(Long id, String orderNumber, Date orderDate, Customer customer, List<OrderLineResponse> listOrderLines) {
+    public OrderResponse(Long id, String orderNumber, Date orderDate, Customer customer, List<OrderLineResponse> orderLines) {
         this.id = id;
         this.orderNumber = orderNumber;
         this.orderDate = orderDate;
         this.customer = customer;
-        this.listOrderLines = listOrderLines;
+        this.orderLines = orderLines;
     }
 
     public OrderResponse() {
@@ -54,11 +54,11 @@ public class OrderResponse {
         this.customer = customer;
     }
 
-    public List<OrderLineResponse> getListOrderLines() {
-        return listOrderLines;
+    public List<OrderLineResponse> getOrderLines() {
+        return orderLines;
     }
 
-    public void setListOrderLines(List<OrderLineResponse> listOrderLines) {
-        this.listOrderLines = listOrderLines;
+    public void setOrderLines(List<OrderLineResponse> orderLines) {
+        this.orderLines = orderLines;
     }
 }
