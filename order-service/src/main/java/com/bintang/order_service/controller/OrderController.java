@@ -31,4 +31,9 @@ public class OrderController {
     public List<OrderResponse> getAllOrders(){
         return orderService.getAllOrders();
     }
+
+    @GetMapping("/getOrderByOrderNumber/{orderNumber}")
+    public OrderResponse getOrderByOrderNumber(@PathVariable("orderNumber") String orderNumber){
+        return orderService.getOrderByOrderNumber(orderNumber);
+    }
 }
