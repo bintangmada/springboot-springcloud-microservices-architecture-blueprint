@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -45,7 +46,7 @@ public class OrderService {
         orderResponse.setOrderNumber(order.getOrderNumber());
         orderResponse.setOrderDate(order.getOrderDate());
         orderResponse.setCustomer(getCustomerById(order.getCustomerId()));
-        orderResponse.setListOrderLines(new ArrayList<>());
+        orderResponse.setOrderLines(new ArrayList<>());
 
         for(OrderLine orderLine : order.getOrderLines()){
             Product product = getProductById(orderLine.getProductId());
@@ -54,7 +55,7 @@ public class OrderService {
             orderLineResponse.setPrice(orderLine.getPrice());
             orderLineResponse.setQuantity(orderLine.getQuantity());
             orderLineResponse.setProduct(product);
-            orderResponse.getListOrderLines().add(orderLineResponse);
+            orderResponse.getOrderLines().add(orderLineResponse);
         }
 
         return orderResponse;
@@ -66,5 +67,31 @@ public class OrderService {
 
     public Product getProductById(Long id){
         return restTemplate.getForObject("http://localhost:8082/api/product/"+id, Product.class);
+    }
+
+    public List<OrderResponse> getAllOrders(){
+        List<Order> allOrder = orderRepository.findAll();
+        List<OrderResponse> listOrderResponse = new ArrayList<>();
+        for(Order order : allOrder){
+            OrderResponse orderResponse = new OrderResponse();
+            orderResponse.setId(order.getId());
+            orderResponse.setOrderDate(order.getOrderDate());
+            orderResponse.setOrderNumber(order.getOrderNumber());
+            orderResponse.setCustomer(getCustomerById(order.getCustomerId()));
+            orderResponse.setOrderLines(new ArrayList<>());
+
+            for(OrderLine orderLine : order.getOrderLines()){
+                OrderLineResponse orderLineResponse = new OrderLineResponse();
+                orderLineResponse.setId(orderLine.getId());
+                orderLineResponse.setProduct(getProductById(orderLine.getProductId()));
+                orderLineResponse.setQuantity(orderLine.getQuantity());
+                orderLineResponse.setPrice(orderLine.getPrice());
+                orderResponse.getOrderLines().add(orderLineResponse);
+            }
+
+            listOrderResponse.add(orderResponse);
+        }
+
+        return listOrderResponse;
     }
 }
