@@ -89,11 +89,11 @@ public class OrderService {
     }
 
     public Customer getCustomerById(Long id){
-        return restTemplate.getForObject("http://localhost:8081/api/customer/"+id, Customer.class);
+        return restTemplate.getForObject("http://CUSTOMER-SERVICE/api/customer/"+id, Customer.class);
     }
 
     public Product getProductById(Long id){
-        return restTemplate.getForObject("http://localhost:8082/api/product/"+id, Product.class);
+        return restTemplate.getForObject("http://PRODUCT-SERVICE/api/product/"+id, Product.class);
     }
 
     public List<OrderResponse> getAllOrders(){
