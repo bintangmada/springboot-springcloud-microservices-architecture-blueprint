@@ -7,6 +7,9 @@ import com.bintang.order_service.dto.Product;
 import com.bintang.order_service.entity.Order;
 import com.bintang.order_service.entity.OrderLine;
 import com.bintang.order_service.repository.OrderRepository;
+import com.bintang.order_service.webclient.CustomerClient;
+import com.bintang.order_service.webclient.ProductClient;
+import com.netflix.discovery.converters.Auto;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +26,14 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+//    @Autowired
+//    private RestTemplate restTemplate;
+
     @Autowired
-    private RestTemplate restTemplate;
+    private CustomerClient customerClient;
+
+    @Autowired
+    private ProductClient productClient;
 
     public Order createOrder(Order order){
         for(OrderLine orderLine : order.getOrderLines()){
@@ -45,11 +54,11 @@ public class OrderService {
         orderResponse.setId(order.getId());
         orderResponse.setOrderNumber(order.getOrderNumber());
         orderResponse.setOrderDate(order.getOrderDate());
-        orderResponse.setCustomer(getCustomerById(order.getCustomerId()));
+        orderResponse.setCustomer(customerClient.getCustomerById(order.getCustomerId()));
         orderResponse.setOrderLines(new ArrayList<>());
 
         for(OrderLine orderLine : order.getOrderLines()){
-            Product product = getProductById(orderLine.getProductId());
+            Product product = productClient.getProductById(orderLine.getProductId());
             OrderLineResponse orderLineResponse = new OrderLineResponse();
             orderLineResponse.setId(orderLine.getId());
             orderLineResponse.setPrice(orderLine.getPrice());
@@ -72,11 +81,11 @@ public class OrderService {
         orderResponse.setId(order.getId());
         orderResponse.setOrderNumber(order.getOrderNumber());
         orderResponse.setOrderDate(order.getOrderDate());
-        orderResponse.setCustomer(getCustomerById(order.getCustomerId()));
+        orderResponse.setCustomer(customerClient.getCustomerById(order.getCustomerId()));
         orderResponse.setOrderLines(new ArrayList<>());
 
         for(OrderLine orderLine : order.getOrderLines()){
-            Product product = getProductById(orderLine.getProductId());
+            Product product = productClient.getProductById(orderLine.getProductId());
             OrderLineResponse orderLineResponse = new OrderLineResponse();
             orderLineResponse.setId(orderLine.getId());
             orderLineResponse.setPrice(orderLine.getPrice());
@@ -88,13 +97,13 @@ public class OrderService {
         return orderResponse;
     }
 
-    public Customer getCustomerById(Long id){
-        return restTemplate.getForObject("http://CUSTOMER-SERVICE/api/customer/"+id, Customer.class);
-    }
+//    public Customer getCustomerById(Long id){
+//        return restTemplate.getForObject("http://CUSTOMER-SERVICE/api/customer/"+id, Customer.class);
+//    }
 
-    public Product getProductById(Long id){
-        return restTemplate.getForObject("http://PRODUCT-SERVICE/api/product/"+id, Product.class);
-    }
+//    public Product getProductById(Long id){
+//        return restTemplate.getForObject("http://PRODUCT-SERVICE/api/product/"+id, Product.class);
+//    }
 
     public List<OrderResponse> getAllOrders(){
         List<Order> allOrder = orderRepository.findAll();
@@ -104,13 +113,13 @@ public class OrderService {
             orderResponse.setId(order.getId());
             orderResponse.setOrderDate(order.getOrderDate());
             orderResponse.setOrderNumber(order.getOrderNumber());
-            orderResponse.setCustomer(getCustomerById(order.getCustomerId()));
+            orderResponse.setCustomer(customerClient.getCustomerById(order.getCustomerId()));
             orderResponse.setOrderLines(new ArrayList<>());
 
             for(OrderLine orderLine : order.getOrderLines()){
                 OrderLineResponse orderLineResponse = new OrderLineResponse();
                 orderLineResponse.setId(orderLine.getId());
-                orderLineResponse.setProduct(getProductById(orderLine.getProductId()));
+                orderLineResponse.setProduct(productClient.getProductById(orderLine.getProductId()));
                 orderLineResponse.setQuantity(orderLine.getQuantity());
                 orderLineResponse.setPrice(orderLine.getPrice());
                 orderResponse.getOrderLines().add(orderLineResponse);
