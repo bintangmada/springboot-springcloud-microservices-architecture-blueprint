@@ -7,6 +7,8 @@ import com.bintang.order_service.dto.Product;
 import com.bintang.order_service.entity.Order;
 import com.bintang.order_service.entity.OrderLine;
 import com.bintang.order_service.repository.OrderRepository;
+import com.bintang.order_service.webclient.CustomerClient;
+import com.netflix.discovery.converters.Auto;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,9 @@ public class OrderService {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private CustomerClient customerClient;
 
     public Order createOrder(Order order){
         for(OrderLine orderLine : order.getOrderLines()){
@@ -45,7 +50,7 @@ public class OrderService {
         orderResponse.setId(order.getId());
         orderResponse.setOrderNumber(order.getOrderNumber());
         orderResponse.setOrderDate(order.getOrderDate());
-        orderResponse.setCustomer(getCustomerById(order.getCustomerId()));
+        orderResponse.setCustomer(customerClient.getCustomerById(order.getCustomerId()));
         orderResponse.setOrderLines(new ArrayList<>());
 
         for(OrderLine orderLine : order.getOrderLines()){
