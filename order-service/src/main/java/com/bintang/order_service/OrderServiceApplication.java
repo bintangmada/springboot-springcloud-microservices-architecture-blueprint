@@ -1,6 +1,7 @@
 package com.bintang.order_service;
 
 import com.bintang.order_service.webclient.CustomerClient;
+import com.bintang.order_service.webclient.ProductClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,16 +23,16 @@ public class OrderServiceApplication {
 		System.out.println("\nSERVER IS RUNNING");
 	}
 
-	@Bean
-	@LoadBalanced
-	RestTemplate restTemplate(){
-		return new RestTemplate();
-	}
+//	@Bean
+//	@LoadBalanced
+//	RestTemplate restTemplate(){
+//		return new RestTemplate();
+//	}
 
 	@Autowired
 	private LoadBalancedExchangeFilterFunction loadBalancedExchangeFilterFunction;
 	@Bean
-	WebClient webCLient(){
+	WebClient webCLientCustomer(){
 		return WebClient.builder()
 				.baseUrl("http://CUSTOMER-SERVICE")
 				.filter(loadBalancedExchangeFilterFunction)
@@ -39,12 +40,27 @@ public class OrderServiceApplication {
 	}
 
 	@Bean
+	WebClient webCLientProduct(){
+		return WebClient.builder()
+				.baseUrl("http://PRODUCT-SERVICE")
+				.filter(loadBalancedExchangeFilterFunction)
+				.build();
+	}
+
+	@Bean
 	CustomerClient customerClient(){
 		HttpServiceProxyFactory factory = HttpServiceProxyFactory
-				.builderFor(WebClientAdapter.create(webCLient()))
+				.builderFor(WebClientAdapter.create(webCLientCustomer()))
 				.build();
 		return factory.createClient(CustomerClient.class);
 	}
 
+	@Bean
+	ProductClient productClient(){
+		HttpServiceProxyFactory factory = HttpServiceProxyFactory
+				.builderFor(WebClientAdapter.create(webCLientProduct()))
+				.build();
+		return factory.createClient(ProductClient.class);
+	}
 
 }
