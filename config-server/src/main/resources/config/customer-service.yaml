@@ -1,0 +1,33 @@
+#nama file nya harus sama dengan nama service nya.
+
+spring:
+  application:
+    version: Customer service v1.0
+  datasource:
+    url: jdbc:mysql://localhost:3306/dbcustomer?useSSL=false&serverTimezone=UTC
+    username: root
+    password: bintangmada
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 5
+      cachePrepStmts: true
+      prepStmtCacheSize: 250
+      prepStmtCacheSqlLimit: 2048
+      useServerPrepStmts: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8081
+  servlet:
+    context-path: /api
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
