@@ -1,8 +1,9 @@
 #nama file nya harus sama dengan nama service nya.
+application:
+  version: Customer service v8.0
 
 spring:
   application:
-    version: Customer service v5.0
   datasource:
     url: jdbc:mysql://localhost:3306/dbcustomer?useSSL=false&serverTimezone=UTC
     username: root
@@ -32,8 +33,10 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka/
 
+#UNTUK ACTUATOR
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+
