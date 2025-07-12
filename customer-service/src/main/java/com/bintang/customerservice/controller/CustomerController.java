@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RefreshScope
 @RestController
 @RequestMapping("/customer")
+@RefreshScope
 public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
 
-    @Value("${spring.application.version}")
+    @Value("${application.version}")
     private String version;
 
     @GetMapping("/get-version")
