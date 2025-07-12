@@ -2,7 +2,7 @@
 
 spring:
   application:
-    version: Customer service v1.0
+    version: Customer service v5.0
   datasource:
     url: jdbc:mysql://localhost:3306/dbcustomer?useSSL=false&serverTimezone=UTC
     username: root
@@ -31,3 +31,9 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

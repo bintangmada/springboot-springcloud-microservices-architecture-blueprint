@@ -4,16 +4,27 @@ import com.bintang.customerservice.dto.SearchEmailRequest;
 import com.bintang.customerservice.entity.Customer;
 import com.bintang.customerservice.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RefreshScope
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Value("${spring.application.version}")
+    private String version;
+
+    @GetMapping("/get-version")
+    public String getVersion(){
+        return version;
+    }
 
     @PostMapping
     public Customer createCustomer(@RequestBody Customer customer) {
