@@ -23,3 +23,12 @@ server:
   servlet:
     context-path: /api
 
+#UNTUK ACTUATOR
+management:
+  tracing:
+    sampling:
+      probability: 1.0 #ZIPKIN
+  endpoints:
+    web:
+      exposure:
+        include: "*"
