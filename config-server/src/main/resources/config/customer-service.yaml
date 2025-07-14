@@ -35,6 +35,9 @@ eureka:
 
 #UNTUK ACTUATOR
 management:
+  tracing:
+    sampling:
+      probability: 1.0
   endpoints:
     web:
       exposure:
