@@ -31,9 +31,15 @@ public class OrderServiceApplication {
 
 	@Autowired
 	private LoadBalancedExchangeFilterFunction loadBalancedExchangeFilterFunction;
+
+	@Autowired
+	private WebClient.Builder webClientBuilderCustomer;
+
+	@Autowired
+	private WebClient.Builder webClientBuilderProduct;
 	@Bean
 	WebClient webCLientCustomer(){
-		return WebClient.builder()
+		return webClientBuilderCustomer
 				.baseUrl("http://CUSTOMER-SERVICE")
 				.filter(loadBalancedExchangeFilterFunction)
 				.build();
@@ -41,7 +47,7 @@ public class OrderServiceApplication {
 
 	@Bean
 	WebClient webCLientProduct(){
-		return WebClient.builder()
+		return webClientBuilderProduct
 				.baseUrl("http://PRODUCT-SERVICE")
 				.filter(loadBalancedExchangeFilterFunction)
 				.build();
