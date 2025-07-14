@@ -1,0 +1,1 @@
+https://search.maven.org/remote_content?g=io.zipkin&amp;a=zipkin-server&amp;v=LATEST&amp;c=exec
