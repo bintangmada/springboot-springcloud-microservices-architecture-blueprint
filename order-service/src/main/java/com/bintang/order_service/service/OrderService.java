@@ -10,6 +10,7 @@ import com.bintang.order_service.repository.OrderRepository;
 import com.bintang.order_service.webclient.CustomerClient;
 import com.bintang.order_service.webclient.ProductClient;
 import com.netflix.discovery.converters.Auto;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,7 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
+    @CircuitBreaker(name = "customerService", fallbackMethod = "fallbackCustomerById")
     public OrderResponse getOrderById(Long id){
         Optional<Order> optOrder = orderRepository.findById(id);
 
@@ -68,6 +70,10 @@ public class OrderService {
         }
 
         return orderResponse;
+    }
+
+    private OrderResponse fallbackCustomerById(Long id, Throwable throwable){
+        return new OrderResponse(); // di return kosong agar tidak terjadi error meskipun ada service yang mati
     }
 
     public OrderResponse getOrderByOrderNumber(String orderNumber){

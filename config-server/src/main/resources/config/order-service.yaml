@@ -23,12 +23,38 @@ server:
   servlet:
     context-path: /api
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
 #UNTUK ACTUATOR
 management:
   tracing:
     sampling:
-      probability: 1.0 #ZIPKIN
+      probability: 1.0 # ZIPKIN
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: "*" # UNTUK HEALTH CHECK TIAP END POINT
+  endpoint:
+    health:
+      show-details: ALWAYS # UNTUK TAU DETAIL INFORMASI TERKAIT MICROSERVICE
+  health:
+    circuitbreakers:
+      enabled: true # UNTUK LIHAT STATUS CIRCUIT BREAKER
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+      slidingWindowSize: 10 # nunggu 10 second di open state, setelah 10 second, maka akan nyoba masuk ke half open state lagi untuk mencoba ngirim request
+      minimumNumberOfCalls: 5 # setelah 5 request maka disorot, ada sesuatu nih. misalnya beneran down, maka akan berubah ke open state
+      permittedNumberOfCallsInHalfOpenState: 3 # setelah 10 detik, maka akan mencoba 3 request. jika berhasil, maka akan kembali ke close state. jika dari 3 itu ada yang gagal, maka akan kembali ke open state
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      waitDurationInOpenState: 10s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+  instances:
+    customerService:
+      baseConfig: default
