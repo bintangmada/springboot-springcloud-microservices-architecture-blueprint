@@ -41,5 +41,5 @@ management:
   endpoints:
     web:
       exposure:
-        include: "*" # UNTUK HEALTH CHECK TIAP END POINT
+        include: "*" # UNTUK HEALTH CHECK TIAP END POINT UNTUK CUSTOMER-SERVICE
 
