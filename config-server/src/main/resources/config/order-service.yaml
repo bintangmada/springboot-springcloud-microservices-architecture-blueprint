@@ -58,3 +58,5 @@ resilience4j.circuitbreaker:
   instances:
     customerService:
       baseConfig: default
+    productService:
+      baseConfig: default
