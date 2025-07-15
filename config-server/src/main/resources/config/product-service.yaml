@@ -32,8 +32,8 @@ eureka:
 management:
   tracing:
     sampling:
-      probability: 1.0 #ZIPKIN
+      probability: 1.0 # ZIPKIN
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: "*" # UNTUK HEALTH CHECK TIAP END POINT
