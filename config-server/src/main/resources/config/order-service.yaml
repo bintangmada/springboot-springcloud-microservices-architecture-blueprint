@@ -58,5 +58,5 @@ resilience4j.circuitbreaker:
   instances:
     customerService:
       baseConfig: default
-    productService:
-      baseConfig: default
+#    productService: # ini bukan service, ini adalah nama circuit breaker. jadi kalau mau tau service mana aja yang mati, maka method yang manggil service tersebut harus dibikinkan circuit breakernya
+#      baseConfig: default
