@@ -23,6 +23,11 @@ server:
   servlet:
     context-path: /api
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
 #UNTUK ACTUATOR
 management:
   tracing:
