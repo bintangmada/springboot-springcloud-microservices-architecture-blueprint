@@ -10,7 +10,7 @@ public class ProductServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProductServiceApplication.class, args);
-		System.out.println("\nSERVER IS RUNNING");
+		System.out.println("\nPRODUCT SERVICE IS RUNNING");
 	}
 
 }
