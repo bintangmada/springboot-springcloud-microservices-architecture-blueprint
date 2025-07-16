@@ -9,7 +9,7 @@ spring:
   application:
     name: authentication-service
   datasource:
-    url: jdbc:mysql://localhost:3306/dbuser
+    url: jdbc:mysql://localhost:3306/dbuser?useSSL=false&serverTimezone=UTC
     username: root
     password: bintangmada
     driver-class-name: com.mysql.jdbc.Driver

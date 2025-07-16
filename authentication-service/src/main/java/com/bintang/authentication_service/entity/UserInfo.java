@@ -8,7 +8,7 @@ public class UserInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
     @Column(length = 100, nullable = false)
     private String name;
     @Column(length = 100, nullable = false, unique = true)
@@ -19,18 +19,18 @@ public class UserInfo {
     public UserInfo() {
     }
 
-    public UserInfo(String id, String name, String email, String password) {
+    public UserInfo(Long id, String name, String email, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
