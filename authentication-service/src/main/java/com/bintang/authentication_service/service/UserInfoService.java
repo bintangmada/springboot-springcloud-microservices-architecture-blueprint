@@ -16,7 +16,8 @@ public class UserInfoService {
     private PasswordEncoder passwordEncoder;
 
     public String createUser(UserInfo userInfo){
-        userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
+
+        userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword())); // ENCODE PASSWORD SAAT CREATE USER
         userInfoRepository.save(userInfo);
         return "User added successfully";
     }
