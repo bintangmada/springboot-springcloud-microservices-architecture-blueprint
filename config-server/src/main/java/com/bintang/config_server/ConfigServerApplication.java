@@ -10,7 +10,7 @@ public class ConfigServerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ConfigServerApplication.class, args);
-		System.out.println("\nSERVER IS RUNNING");
+		System.out.println("\nCONFIG SERVICE IS RUNNING");
 	}
 
 }

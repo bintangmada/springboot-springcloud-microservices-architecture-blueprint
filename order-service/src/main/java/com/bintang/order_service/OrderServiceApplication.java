@@ -20,7 +20,7 @@ public class OrderServiceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(OrderServiceApplication.class, args);
-		System.out.println("\nSERVER IS RUNNING");
+		System.out.println("\nORDER SERVICE IS RUNNING");
 	}
 
 //	@Bean
