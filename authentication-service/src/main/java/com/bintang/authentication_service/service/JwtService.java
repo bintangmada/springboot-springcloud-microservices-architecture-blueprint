@@ -44,8 +44,13 @@ public class JwtService {
                 .getBody();
     }
 
-    public boolean validateToken(String token){
-        return false;
+    public String validateToken(String token){
+        try{
+            Claims claims = extractAllClaims(token);
+            return "Token is valid";
+        }catch(Exception e){
+            return "Token is not valid";
+        }
     }
 
 
