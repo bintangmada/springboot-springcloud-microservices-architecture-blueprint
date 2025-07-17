@@ -20,12 +20,12 @@ public class JwtService {
         return createToken(claims, username);
     }
 
-    public Key getSignKey(){
+    private Key getSignKey(){
         byte[] keyBytes = Decoders.BASE64.decode(SECRET);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String createToken(Map<String, Object> claims, String username){
+    private String createToken(Map<String, Object> claims, String username){
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(username)
@@ -33,6 +33,11 @@ public class JwtService {
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+
+    public boolean validateToken(String token){
+        return false;
     }
 
 
