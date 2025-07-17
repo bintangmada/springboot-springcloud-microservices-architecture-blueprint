@@ -1,6 +1,8 @@
 package com.bintang.authentication_service.controller;
 
+import com.bintang.authentication_service.dto.AuthRequest;
 import com.bintang.authentication_service.entity.UserInfo;
+import com.bintang.authentication_service.service.JwtService;
 import com.bintang.authentication_service.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,9 +16,17 @@ public class UserController {
 
     @Autowired
     private UserInfoService userInfoService;
+    @Autowired
+    private JwtService jwtService;
 
     @PostMapping("/register")
     public String createUser(@RequestBody UserInfo userInfo){
         return userInfoService.createUser(userInfo);
     }
+
+    @PostMapping("/generate-token")
+    public String generateToken(@RequestBody AuthRequest authRequest){
+        return jwtService.generateToken(authRequest.getName());
+    }
+
 }
