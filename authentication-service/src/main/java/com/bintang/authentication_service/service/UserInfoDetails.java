@@ -11,7 +11,7 @@ public class UserInfoDetails implements UserDetails {
     private String name;
     private String password;
 
-    public UserInfoDetails (UserInfo userInfo){
+    public UserInfoDetails(UserInfo userInfo){
         this.name = userInfo.getName();
         this.password = userInfo.getPassword();
     }
