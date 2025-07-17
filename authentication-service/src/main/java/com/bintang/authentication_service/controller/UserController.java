@@ -6,6 +6,8 @@ import com.bintang.authentication_service.service.JwtService;
 import com.bintang.authentication_service.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +31,14 @@ public class UserController {
 
     @PostMapping("/generate-token")
     public String generateToken(@RequestBody AuthRequest authRequest){
-        return jwtService.generateToken(authRequest.getName());
+        //cek user sebelum generate token
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(authRequest.getName(), authRequest.getPassword()));
+        if(authentication.isAuthenticated()) {
+            return jwtService.generateToken(authRequest.getName());
+        }else{
+            throw new RuntimeException("Username or password incorrect");
+        }
     }
 
 }
