@@ -26,7 +26,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/auth/register",
-                                "/auth/generate-token")
+                                "/auth/generate-token",
+                                "/auth/validate-token")
                         .permitAll()
                         .anyRequest().authenticated())
                 .build();
