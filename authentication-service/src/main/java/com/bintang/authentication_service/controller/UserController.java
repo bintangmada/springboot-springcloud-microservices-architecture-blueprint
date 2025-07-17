@@ -31,7 +31,7 @@ public class UserController {
 
     @PostMapping("/generate-token")
     public String generateToken(@RequestBody AuthRequest authRequest){
-        //cek user sebelum generate token
+        //cek apakah user sudah terdaftar di database atau tidak sebelum generate token
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(authRequest.getName(), authRequest.getPassword()));
         if(authentication.isAuthenticated()) {
