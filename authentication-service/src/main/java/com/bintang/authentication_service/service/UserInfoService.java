@@ -3,11 +3,14 @@ package com.bintang.authentication_service.service;
 import com.bintang.authentication_service.entity.UserInfo;
 import com.bintang.authentication_service.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserInfoService {
+public class UserInfoService implements UserDetailsService {
 
     @Autowired
     private UserInfoRepository userInfoRepository;
@@ -20,5 +23,10 @@ public class UserInfoService {
         userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword())); // ENCODE PASSWORD SAAT CREATE USER
         userInfoRepository.save(userInfo);
         return "User added successfully";
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
     }
 }
