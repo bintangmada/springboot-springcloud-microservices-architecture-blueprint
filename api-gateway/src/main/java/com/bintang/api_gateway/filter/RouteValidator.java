@@ -1,8 +1,10 @@
 package com.bintang.api_gateway.filter;
 
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 @Component
 public class RouteValidator {
@@ -14,6 +16,14 @@ public class RouteValidator {
             "/api/auth/validate-token",
             "/eureka"
     );
+
+    public Predicate<ServerHttpRequest> isSecured =
+            request -> whiteListEndPoints
+                    .stream()
+                    .noneMatch(uri -> request
+                            .getURI()
+                            .getPath()
+                            .contains(uri));
 
 
 }
