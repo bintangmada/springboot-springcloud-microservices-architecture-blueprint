@@ -12,9 +12,15 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AbstractGatewayFilt
     public static class Config{
 
     }
-    
+
     @Override
     public GatewayFilter apply(NameConfig config) {
-        return null;
+        return (exchange, chain) ->{
+
+            // cek request yang datang apakah punya header atau tidak
+
+
+            return chain.filter(exchange);
+        };
     }
 }
