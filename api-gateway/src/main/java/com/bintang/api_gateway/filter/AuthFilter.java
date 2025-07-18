@@ -49,7 +49,8 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AbstractGatewayFilt
 
                     // 2. VALIDASI KE AUTH SERVICE
                     try {
-                        restTemplate.getForObject("http://authentication-service/api/auth/validate-token?token=" + token, String.class);
+                        // tidak bisa kalau pake nama service yang ada di eureka. harus service nya langsung
+                        restTemplate.getForObject("http://localhost:8099/api/auth/validate-token?token=" + token, String.class);
                     } catch (Exception e) {
                         exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                         return exchange.getResponse().setComplete();
