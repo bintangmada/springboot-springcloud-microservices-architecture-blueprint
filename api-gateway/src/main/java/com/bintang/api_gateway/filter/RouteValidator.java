@@ -23,7 +23,7 @@ public class RouteValidator {
                     .noneMatch(uri -> request
                             .getURI()
                             .getPath()
-                            .contains(uri));
+                            .equals(uri));
 
 
 }
