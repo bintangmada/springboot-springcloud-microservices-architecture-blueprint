@@ -1,3 +1,52 @@
-spring.application.name=api-gateway
-server.port=8084
-server.servlet.context-path=/api
+spring:
+  profiles:
+    active: dev
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: customer-service
+              uri: lb://customer-service #ini adalah nama load balancer yang didaftarkan di eureka
+              predicates:
+                - Path=/api/customer/**
+              filters:
+                - AuthFilter
+            - id: product-service
+              uri: lb://product-service #ini adalah nama load balancer yang didaftarkan di eureka
+              predicates:
+                - Path=/api/product/**
+              filters:
+                - AuthFilter
+            - id: order-service
+              uri: lb://order-service #ini adalah nama load balancer yang didaftarkan di eureka
+              predicates:
+                - Path=/api/order/**
+              filters:
+                - AuthFilter
+            - id: authentication-service
+              uri: lb://authentication-service #ini adalah nama load balancer yang didaftarkan di eureka
+              predicates:
+                - Path=/api/auth/**
+              filters:
+                - AuthFilter
+  # Uncomment jika ingin mengaktifkan service discovery
+  # cloud:
+  #   discovery:
+  #     enabled: true
+
+server:
+  port: 80
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+#UNTUK ACTUATOR
+management:
+  tracing:
+    sampling:
+      probability: 1.0 #ZIPKIN
