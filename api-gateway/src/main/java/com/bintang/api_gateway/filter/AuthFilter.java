@@ -1,5 +1,6 @@
 package com.bintang.api_gateway.filter;
 
+import com.bintang.api_gateway.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -22,6 +23,9 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AbstractGatewayFilt
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     public static class Config{
 
@@ -50,7 +54,8 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AbstractGatewayFilt
                     // 2. VALIDASI KE AUTH SERVICE
                     try {
                         // tidak bisa kalau pake nama service yang ada di eureka. harus service nya langsung
-                        restTemplate.getForObject("http://localhost:8099/api/auth/validate-token?token=" + token, String.class);
+                        // restTemplate.getForObject("http://localhost:8099/api/auth/validate-token?token=" + token, String.class);
+                        jwtUtil.validateToken(token);
                     } catch (Exception e) {
                         exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                         return exchange.getResponse().setComplete();
